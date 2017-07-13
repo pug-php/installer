@@ -13,7 +13,7 @@ class Installer
      */
     protected $event;
 
-    function __construct(Event $event)
+    public function __construct(Event $event)
     {
         $this->event = $event;
     }
