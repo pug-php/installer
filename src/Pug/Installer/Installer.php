@@ -87,6 +87,8 @@ class Installer
             return;
         }
 
+        include_once $composer->getConfig()->get('vendor-dir') . DIRECTORY_SEPARATOR . 'autoload.php';
+
         foreach ($installers as $installer) {
             call_user_func($installer, $event, new static($event));
         }
