@@ -1,0 +1,28 @@
+{
+    "name": "pug/installer",
+    "description": "Enable installation callbacks on composer libraries",
+    "type": "composer-plugin",
+    "authors": [
+        {
+            "name": "Kyle",
+            "email": "kylekatarnls@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "composer-plugin-api": "^1.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.2",
+        "phpunit/phpunit": ">=4.8 <6.0",
+        "codeclimate/php-test-reporter": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Pug\\": "src/"
+        }
+    },
+    "extra": {
+        "class": "Pug\\Installer\\ComposerPlugin"
+    }
+}
