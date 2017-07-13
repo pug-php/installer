@@ -36,7 +36,7 @@ class Installer
         }
         $composer = $vendorDirectory . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'composer';
 
-        return shell_exec($composer . ' require ' . $repository . ($version ? ' ' . $version : '') . ' 2>&1');
+        return shell_exec($composer . ' require --no-interaction ' . $repository . ($version ? ' ' . $version : '') . ' 2>&1');
     }
 
     protected static function appendConfig(&$installers, $directory)
