@@ -80,10 +80,8 @@ class Installer
         $installers = static::getInstallerConfig($composer);
 
         if (!count($installers)) {
-            $config = $composer->getPackage()->getExtra();
-            $event->getIO()->write(isset($config['installer'])
-                ? 'No installer found.'
-                : "Warning: in order to use Pug\\Installer, you should add an \"extra\": {\"installer\": \"YourInstallerClass\"}' setting in your composer.json"
+            $event->getIO()->write(
+                "Warning: in order to use Pug\\Installer, you should add an \"extra\": {\"installer\": \"YourInstallerClass\"}' setting in your composer.json"
             );
 
             return;

@@ -45,4 +45,23 @@ class ComposerPluginTest extends TestCase
         self::assertContains('Could not find package pug/this-does-not-exists', self::$output);
         static::removeTestDirectories();
     }
+
+    public function testNoInstaller()
+    {
+        $composer = $this->emulateComposer(array(
+            'toto/toto' => '{"extra":{}}',
+        ));
+        $io = new CaptureIO();
+        $event = new Event('install', $composer, $io);
+        $plugin = new ComposerPlugin();
+        $plugin->activate($composer, $io);
+        $events = ComposerPlugin::getSubscribedEvents();
+        $this->assertTrue(is_array($events));
+        $this->assertTrue(is_array($events['post-autoload-dump']));
+        $this->assertTrue(is_array($events['post-autoload-dump'][0]));
+        $method = $events['post-autoload-dump'][0][0];
+        $plugin->$method($event);
+
+        self::assertSame("Warning: in order to use Pug\\Installer, you should add an \"extra\": {\"installer\": \"YourInstallerClass\"}' setting in your composer.json", $io->getLastOutput());
+    }
 }
