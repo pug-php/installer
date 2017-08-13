@@ -40,8 +40,9 @@ class ComposerPluginTest extends TestCase
         $method = $events['post-autoload-dump'][0][0];
         $plugin->$method($event);
 
-        self::assertInstanceOf('\\Composer\\Script\\Event', self::$event);
-        self::assertInstanceOf('\\Pug\\Installer\\Installer', self::$installer);
+        self::assertInstanceOf('Composer\\Script\\Event', self::$event);
+        self::assertInstanceOf('Pug\\Installer\\Installer', self::$installer);
+        self::assertSame('Pug\\Installer\\Installer', '' . self::$installer);
         self::assertContains('Could not find package pug/this-does-not-exists', self::$output);
         static::removeTestDirectories();
     }

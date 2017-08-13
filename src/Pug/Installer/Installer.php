@@ -99,4 +99,9 @@ class Installer
             call_user_func($installer, $event, new static($event));
         }
     }
+
+    public function __toString()
+    {
+        return get_class();
+    }
 }
