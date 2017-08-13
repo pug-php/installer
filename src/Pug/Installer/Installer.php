@@ -48,6 +48,7 @@ class Installer
     protected static function appendConfig(&$installers, $directory)
     {
         $json = new JsonFile($directory . DIRECTORY_SEPARATOR . 'composer.json');
+
         try {
             $dependencyConfig = $json->read();
         } catch (\RuntimeException $e) {
