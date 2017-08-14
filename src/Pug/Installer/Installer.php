@@ -20,22 +20,28 @@ class Installer
 
     public function install($repository, $version = null)
     {
-        $vendorDirectory = static::fallbackVendorDir($this->event->getComposer()->getConfig()->get('vendor-dir'));
+        $vendorDirectory = static::fallbackVendorDir(static::getComposerVendorDir($this->event->getComposer()));
         $composer = $vendorDirectory . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'composer';
 
         return shell_exec($composer . ' require --no-interaction ' . $repository . ($version ? ' ' . $version : '') . ' 2>&1');
     }
 
+    protected static function looksVendorDir($vendorDirectory)
+    {
+        return is_dir($vendorDirectory . DIRECTORY_SEPARATOR . 'bin') ||
+            file_exists($vendorDirectory . DIRECTORY_SEPARATOR . 'autoload.php');
+    }
+
     public static function fallbackVendorDir($vendorDirectory)
     {
-        if (!is_dir($vendorDirectory . DIRECTORY_SEPARATOR . 'bin')) {
+        if (!static::looksVendorDir($vendorDirectory)) {
             $vendorDirectory = __DIR__;
             for ($i = 0; $i < 10; $i++) {
                 $vendorDirectory = dirname($vendorDirectory);
-                if (is_dir($vendorDirectory . DIRECTORY_SEPARATOR . 'bin')) {
+                if (static::looksVendorDir($vendorDirectory)) {
                     break;
                 }
-                if (is_dir($vendorDirectory . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'bin')) {
+                if (static::looksVendorDir($vendorDirectory . DIRECTORY_SEPARATOR . 'vendor')) {
                     $vendorDirectory = $vendorDirectory . DIRECTORY_SEPARATOR . 'vendor';
                     break;
                 }
@@ -58,9 +64,14 @@ class Installer
         }
     }
 
+    protected static function getComposerVendorDir(Composer $composer)
+    {
+        return realpath($composer->getConfig()->get('vendor-dir'));
+    }
+
     protected static function getInstallerConfig(Composer $composer)
     {
-        $vendorDir = $composer->getConfig()->get('vendor-dir');
+        $vendorDir = static::getComposerVendorDir($composer);
 
         $installers = array();
 
@@ -93,7 +104,7 @@ class Installer
             return;
         }
 
-        include_once static::fallbackVendorDir($composer->getConfig()->get('vendor-dir')) . DIRECTORY_SEPARATOR . 'autoload.php';
+        include_once static::fallbackVendorDir(static::getComposerVendorDir($composer)) . DIRECTORY_SEPARATOR . 'autoload.php';
 
         foreach ($installers as $installer) {
             call_user_func($installer, $event, new static($event));
