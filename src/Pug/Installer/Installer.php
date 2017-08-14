@@ -54,6 +54,7 @@ class Installer
     protected static function appendConfig(&$installers, $directory)
     {
         $json = new JsonFile($directory . DIRECTORY_SEPARATOR . 'composer.json');
+
         try {
             $dependencyConfig = $json->read();
         } catch (\RuntimeException $e) {
@@ -109,5 +110,10 @@ class Installer
         foreach ($installers as $installer) {
             call_user_func($installer, $event, new static($event));
         }
+    }
+
+    public function __toString()
+    {
+        return get_class();
     }
 }
