@@ -15,6 +15,15 @@ engines:
     checks:
       Naming/ShortVariable:
         enabled: false
+plugins:
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+  SonarPHP:
+    enabled: true
+  phan:
+    enabled: true
 ratings:
   paths:
   - "**.inc"
