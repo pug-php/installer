@@ -43,7 +43,7 @@ class ComposerPluginTest extends TestCase
         self::assertInstanceOf('Composer\\Script\\Event', self::$event);
         self::assertInstanceOf('Pug\\Installer\\Installer', self::$installer);
         self::assertSame('Pug\\Installer\\Installer', '' . self::$installer);
-        self::assertContains('Could not find package pug/this-does-not-exists', self::$output);
+        self::assertRegExp('`Could not find( a matching version of)? package pug/this-does-not-exists`', self::$output);
         static::removeTestDirectories();
     }
 
