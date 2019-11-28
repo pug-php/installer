@@ -8,13 +8,15 @@ matrix:
     - php: 7.0
     - php: 5.6
     - php: 5.5
+      dist: trusty
     - php: 5.4
+      dist: trusty
     - php: 5.3
       dist: precise
 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer self-update
+  - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text --coverage-clover=coverage.xml
