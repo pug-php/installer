@@ -1,6 +1,7 @@
 {
     "name": "pug/installer",
     "description": "Enable installation callbacks on composer libraries",
+    "license": "MIT",
     "type": "composer-plugin",
     "authors": [
         {
