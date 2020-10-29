@@ -30,4 +30,14 @@ class ComposerPlugin implements PluginInterface, EventSubscriberInterface
     {
         Installer::onAutoloadDump($event);
     }
+
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+        // Not needed
+    }
+
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
+        // Not needed
+    }
 }
