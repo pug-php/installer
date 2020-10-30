@@ -3,8 +3,8 @@
 namespace Pug\Installer;
 
 use Composer\Composer;
+use Composer\EventDispatcher\Event;
 use Composer\Json\JsonFile;
-use Composer\Script\Event;
 
 class Installer
 {
