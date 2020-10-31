@@ -36,14 +36,14 @@ class Installer
     {
         if (!static::looksVendorDir($vendorDirectory)) {
             $vendorDirectory = __DIR__;
+
             for ($i = 0; $i < 10; $i++) {
                 $vendorDirectory = dirname($vendorDirectory);
-                if (static::looksVendorDir($vendorDirectory)) {
-                    break;
-                }
-                if (static::looksVendorDir($vendorDirectory . DIRECTORY_SEPARATOR . 'vendor')) {
-                    $vendorDirectory = $vendorDirectory . DIRECTORY_SEPARATOR . 'vendor';
-                    break;
+
+                foreach (array('', DIRECTORY_SEPARATOR . 'vendor') as $directory) {
+                    if (static::looksVendorDir($vendorDirectory . $directory)) {
+                        return $vendorDirectory . $directory;
+                    }
                 }
             }
         }

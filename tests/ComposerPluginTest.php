@@ -2,6 +2,7 @@
 
 namespace Pug\Tests;
 
+use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Pug\Installer\ComposerPlugin;
 use Pug\Installer\Installer;
@@ -64,5 +65,19 @@ class ComposerPluginTest extends TestCase
         $plugin->$method($event);
 
         self::assertSame("Warning: in order to use Pug\\Installer, you should add an \"extra\": {\"installer\": \"YourInstallerClass\"}' setting in your composer.json", $io->getLastOutput());
+    }
+
+    public function testPluginInterface()
+    {
+        $composer = $this->emulateComposer(array(
+            'toto/toto' => '{"extra":{"installer":"\\\\Pug\\\\Tests\\\\ComposerPluginTest::install"}}',
+        ));
+        $io = new CaptureIO();
+        /** @var PluginInterface|ComposerPlugin $plugin */
+        $plugin = new ComposerPlugin();
+
+        $this->assertInstanceOf('Composer\\Plugin\\PluginInterface', $plugin);
+        $this->assertNull($plugin->deactivate($composer, $io));
+        $this->assertNull($plugin->uninstall($composer, $io));
     }
 }
