@@ -80,4 +80,11 @@ class ComposerPluginTest extends TestCase
         $this->assertNull($plugin->deactivate($composer, $io));
         $this->assertNull($plugin->uninstall($composer, $io));
     }
+
+    public function testFallbackVendorDir()
+    {
+        $path = realpath(__DIR__ . '/lib/false-vendor');
+        $this->assertSame($path, Installer::fallbackVendorDir($path));
+        $this->assertRegExp('`^([A-Z]:)?[/\\\\]$`', Installer::fallbackVendorDir('/', 'not-vendor'));
+    }
 }

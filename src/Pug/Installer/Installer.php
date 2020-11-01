@@ -32,7 +32,7 @@ class Installer
             file_exists($vendorDirectory . DIRECTORY_SEPARATOR . 'autoload.php');
     }
 
-    public static function fallbackVendorDir($vendorDirectory)
+    public static function fallbackVendorDir($vendorDirectory, $vendorName = 'vendor')
     {
         if (!static::looksVendorDir($vendorDirectory)) {
             $vendorDirectory = __DIR__;
@@ -40,7 +40,7 @@ class Installer
             for ($i = 0; $i < 10; $i++) {
                 $vendorDirectory = dirname($vendorDirectory);
 
-                foreach (array('', DIRECTORY_SEPARATOR . 'vendor') as $directory) {
+                foreach (array('', DIRECTORY_SEPARATOR . $vendorName) as $directory) {
                     if (static::looksVendorDir($vendorDirectory . $directory)) {
                         return $vendorDirectory . $directory;
                     }
